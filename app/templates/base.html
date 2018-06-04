@@ -1,0 +1,40 @@
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - microblog</title>
+        {% else %}
+        <title>microblog</title>
+        {% endif %}
+	
+	{% if js_resources %}
+
+	    {{ js_resources|indent(4)|safe }}
+
+	    {{ css_resources|indent(4)|safe }}
+
+	    {{ plot_script|indent(4)|safe }}
+
+
+	{% endif %}
+
+    </head>
+    <body>
+        <div>
+            Microblog:
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('plot') }}">Bokeh</a>
+        </div>
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </body>
+</html>

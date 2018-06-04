@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h1>Oscillator</h1>
+
+<form method=post action="">
+	        {{ form.hidden_tag() }}
+
+<table>
+
+	{% for field in form if field.widget.input_type != 'hidden' %}
+	   <tr>
+    <td>{{ field.name }}</td><td>{{ field(size=12) }}</td>
+    <td>{{ field.label }}</td>
+    {% if field.errors %}
+      <td><ul class=errors>
+      {% for error in field.errors %}
+        <li><font color="red">{{ error }}</font></li>
+      {% endfor %}</ul></td>
+    {% endif %}
+    </tr>
+  {% endfor %}
+</table>
+<p><input type=submit value=Compute></form></p>
+
+	<p>
+	{% if result != None %}
+
+    {{ plot_div|indent(4)|safe }}
+
+	{% endif %}
+	</p>
+
+{% endblock %}
