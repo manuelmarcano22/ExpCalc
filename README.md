@@ -1,6 +1,6 @@
 # Exposure Calculator
 
-Future exposure calculator using flask
+Future exposure calculator using flask. Temporary at calc.manuelpm.me
 
 
 
