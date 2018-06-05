@@ -4,10 +4,9 @@
 {% block content %}
     <h1>Oscillator</h1>
 
-<form method=post action="">
+<form class="form form-vertical" method=post action="">
 	        {{ form.hidden_tag() }}
-
-<table>
+<table class="table">
 
 	{% for field in form if field.widget.input_type != 'hidden' %}
 	   <tr>
@@ -22,7 +21,7 @@
     </tr>
   {% endfor %}
 </table>
-<p><input type=submit value=Compute></form></p>
+<p><input class='btn btn-warning ' type=submit value=Compute></form></p>
 
 	<p>
 	{% if result != None %}
