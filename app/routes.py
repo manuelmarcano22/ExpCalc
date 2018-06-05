@@ -6,12 +6,11 @@ from app.compute import compute, bplot
 from bokeh.util.string import encode_utf8
 import glob
 from random import randint
-import re
 
 #Error handler
 @app.errorhandler(404)
 def page_not_found(e):
-    lista = glob.glob('app/static/Jokes/*.jpg')
+    lista = glob.glob('./**/static/Jokes/*.jpg', recursive=True)
     ra = randint(0,len(lista))
     names = lista[ra].split('/')[-1]
     return render_template('404.html',name=names), 404
