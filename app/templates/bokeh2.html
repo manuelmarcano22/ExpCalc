@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block content %}
+    <h1>Oscillator</h1>
+
+<form class="form form-vertical" method=post action="">
+	        {{ form.hidden_tag() }}
+
+<dl>
+	{% for field in form if field.widget.input_type != 'hidden' %}
+{{ render_field(field, class='form-control', placeholder=field.description) }}
+  {% endfor %}
+
+</dl>
+<p><input class='btn btn-warning ' type=submit value=Compute></form></p>
+
+	<p>
+	{% if result != None %}
+
+    {{ plot_div|indent(4)|safe }}
+
+	{% endif %}
+	</p>
+
+{% endblock %}
