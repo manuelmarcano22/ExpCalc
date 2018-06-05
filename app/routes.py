@@ -11,7 +11,7 @@ import re
 #Error handler
 @app.errorhandler(404)
 def page_not_found(e):
-    lista = glob.glob('static/Jokes/*.jpg')
+    lista = glob.glob('app/static/Jokes/*.jpg')
     ra = randint(0,len(lista))
     names = lista[ra].split('/')[-1]
     return render_template('404.html',name=names), 404
