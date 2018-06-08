@@ -1,6 +1,6 @@
 from flask import render_template,  flash, redirect, url_for, request
 from app import app
-from app.forms import LoginForm, InputForm
+from app.forms import LoginForm, InputForm, SNRtimeForm
 from app.compute import compute, bplot
 #Bokeh
 from bokeh.util.string import encode_utf8
@@ -45,6 +45,9 @@ def login():
 @app.route('/bokeh', methods=['GET', 'POST'])
 def plot():
     form = InputForm()
+    snrtimeform = SNRtimeForm()
+
+    snr = snrtimeform.snr.data
     #So that grapg appears after submit
     if form.validate_on_submit():
         result = True
@@ -53,20 +56,24 @@ def plot():
         script, div, js, css = bplot(t,u)
         
         html = render_template(
-                'bokeh.html',
+                'tryhide.html',
                 plot_script=script,
                 plot_div=div,
                 js_resources=js,
                 css_resources=css,
                 title='O',
                 form=form,
+                snrtimeform=snrtimeform,
+                snr=snr,
                 result=result)
     else:
         result = None 
         html = render_template(
-                'bokeh.html',
+                'tryhide.html',
                 title='O',
                 form=form,
+                snrtimeform=snrtimeform,
+                snr=snr,
                 result=result)
 
     return encode_utf8(html)

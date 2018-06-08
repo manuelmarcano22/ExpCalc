@@ -16,7 +16,14 @@ class InputForm(FlaskForm):
     b = FloatField('Dampling Factor (kg/s)',  description = "Damp the thing", default=0)
     w = FloatField('Freq (1/s)', description = "Hertz" ,default=2*np.pi, validators=[InputRequired()])
     T = FloatField('Time (s)', description = "Self Explanatory" ,default=18.0, validators=[InputRequired()])
+
     #submit = SubmitField('Compute')
+
+class SNRtimeForm(FlaskForm):
+    snr = FloatField('SNR', default=1.0, description = "SNR" ,validators=[InputRequired()])
+    exptime = FloatField('ExpTime',  description = "Exposure time", default=0)
+
+
 
 
 

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h1>Exposure Time Calculator  </h1>
+
+
+<form class="form form-vertical" method=post action="">
+	        {{ form.hidden_tag() }}
+
+  <h4>Which do you like more?</h4>
+  <div>
+    <div>
+      <input type="radio" name="choice-calc" id="choice-calc-snr" required>
+      <label for="choice-calc-snr">Calculate the SNR</label>
+    
+      <div class="reveal-if-active">
+	      {{snrtimeform.snr.label}}
+	{{ snrtimeform.snr(class_="require-if-active",pair="#choice-calc-snr") }}
+	<!-- <input type="text" id="which-dog" name="which-dog" class="require-if-active" data-require-pair="#choice-animals-dogs">-->
+      </div>
+    </div>
+    
+    <div>
+      <input type="radio" name="choice-calc" id="choice-calc-exptime">
+      <label for="choice-calc-exptime">Calculate ExpTime</label>
+    
+      <div class="reveal-if-active">
+	      <!--<label for="which-cat">Why? Cats are weird. Respond.</label>-->
+	{{snrtimeform.exptime.label}}
+	{{ snrtimeform.exptime(class_="require-if-active",pair="#choice-calc-exptime") }}
+	<!--<input type="text" id="which-cat" name="which-cat" class="require-if-active" data-require-pair="#choice-animals-cats">-->
+      </div>
+    </div>
+  </div>
+  
+
+<table class="table">
+
+	{% for field in form if field.widget.input_type != 'hidden' %}
+	   <tr>
+    <td>{{ field.name }}</td><td>{{ field(size=12) }}</td>
+    <td>{{ field.label }}</td>
+
+
+    {% if field.errors %}
+      <td><ul class=errors>
+      {% for error in field.errors %}
+        <li><font color="red">{{ error }}</font></li>
+      {% endfor %}</ul></td>
+    {% endif %}
+    </tr>
+  {% endfor %}
+</table>
+<p><input class='btn btn-warning ' type=submit value=Compute></form></p>
+
+
+	{% if result != None %}
+
+	<p>El SNR es : {{ snr }} </p>
+
+	<!--If wanted a lot with bokeh
+	 <p>
+	 {{ plot_div|indent(4)|safe }}
+	 </p>
+	-->
+
+	{% endif %}
+
+{% endblock %}
