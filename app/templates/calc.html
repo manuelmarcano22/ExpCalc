@@ -6,12 +6,15 @@
 
 
 <form class="form form-vertical" method=post action="">
+
 	        {{ form.hidden_tag() }}
+
 
   <h4>Which do you like more?</h4>
   <div>
     <div>
-      <input type="radio" name="choice-calc" id="choice-calc-snr" required>
+
+      <input type="radio" name="choice-calc" id="choice-calc-snr" value='snr' required>
       <label for="choice-calc-snr">Calculate the SNR</label>
     
       <div class="reveal-if-active">
@@ -22,7 +25,7 @@
     </div>
     
     <div>
-      <input type="radio" name="choice-calc" id="choice-calc-exptime">
+      <input type="radio" name="choice-calc" id="choice-calc-exptime", value='time'>
       <label for="choice-calc-exptime">Calculate ExpTime</label>
     
       <div class="reveal-if-active">
@@ -57,13 +60,12 @@
 
 	{% if result != None %}
 
-	<p>El SNR es : {{ snr }} </p>
+	<p><b>{{ finalcalc }} </b></p>
 
-	<!--If wanted a lot with bokeh
+
 	 <p>
 	 {{ plot_div|indent(4)|safe }}
 	 </p>
-	-->
 
 	{% endif %}
 

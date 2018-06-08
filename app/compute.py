@@ -19,8 +19,14 @@ def compute(A, b, w, T, resolution=500):
     u = damped_vibrations(t, A, b, w)
     return t,u
 
+def computeexptime(snr):
+    """Return Exposure time given the noisees and snr desired."""
+    exptime = snr*2.0
+    return exptime
+
+
 def bplot(x,y):
-    """Descript"""
+    """Descript Function"""
 
     #Define data
     x = np.array(x)
