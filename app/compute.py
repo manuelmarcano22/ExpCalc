@@ -32,7 +32,7 @@ def bplot(x,y):
     x = np.array(x)
     y = np.array(y)
     source = ColumnDataSource(data=dict(x=x,y=y))
-    plot = figure()
+    plot = figure(sizing_mode='scale_width',plot_width=100, plot_height=50)
     plot.line('x','y',source=source)
     #JS
     js_resources = INLINE.render_js()
