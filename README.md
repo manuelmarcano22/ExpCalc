@@ -19,7 +19,8 @@ Run in port 5000
 
 
 To-Do:
- - [ ] Implement SNR formula for CCD
+ - [x] Implement SNR formula for CCD
+ - [ ] Need to get rid of unnecessary form in routes
  - [ ] Finish index.html page
  - [ ] Create appropriate footer
  - [ ] Conda environment with .yml file
