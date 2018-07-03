@@ -24,6 +24,15 @@ class SNRtimeForm(FlaskForm):
     exptime = FloatField('ExpTime',  description = "Exposure time", default=0)
 
 
+class CCDForm1(FlaskForm):
+    dark1 = FloatField('Dark Current UNO', default=6.0, description = "Dark" ,validators=[InputRequired()])
+    bin1 = FloatField('Bin UNO',  description = "Bin", default=10)
+
+class CCDForm2(FlaskForm):
+    dark2 = FloatField('Dark Current Dos', default=12.0, description = "Dark" ,validators=[InputRequired()])
+    bin2 = FloatField('Bin Dos',  description = "Bin", default=20)
+
+
 
 
 

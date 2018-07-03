@@ -1,6 +1,6 @@
 from flask import render_template,  flash, redirect, url_for, request
 from app import app
-from app.forms import LoginForm, InputForm, SNRtimeForm
+from app.forms import LoginForm, InputForm, SNRtimeForm, CCDForm1, CCDForm2
 from app.compute import compute, bplot, computeexptime
 #Bokeh
 from bokeh.util.string import encode_utf8
@@ -36,6 +36,8 @@ def index():
 def calc():
     form = InputForm()
     snrtimeform = SNRtimeForm()
+    ccdform1 = CCDForm1()
+    ccdform2 = CCDForm2()
 
     #snr = request.form['choice-calc']
     #So that grapg appears after submit
@@ -44,17 +46,28 @@ def calc():
 
         #Do the calculation based on selection:
         choice = request.form['choice-calc']
+        choiceccd = request.form['choice-ccd']
+
+        if choiceccd == 'ccd1':
+            ccdbin = ccdform1.bin1.data
+            ccddark = ccdform1.dark1.data
+
+        elif choiceccd == 'ccd2':
+            ccdbin = ccdform2.bin2.data
+            ccddark = ccdform2.dark2.data
+
+
         if choice == 'snr':
             snr = snrtimeform.snr.data
             exptime = snrtimeform.exptime.data
             exptime = computeexptime(snr)
-            finalcalc = 'Selected {}. SNR: {}, Exptime: {}'.format(choice,snr,exptime)
+            finalcalc = 'Selected {}. SNR: {}, Exptime: {}. CCD selected: {}, ccdbins: {}, ccddark {}'.format(choice,snr,exptime,choiceccd,ccdbin,ccddark)
             
         elif choice == 'time':
             snr = snrtimeform.snr.data
             exptime = snrtimeform.exptime.data
             exptime = computeexptime(snr)
-            finalcalc = 'SSelected {}. SNR: {}, Exptime: {}'.format(choice,snr,exptime)
+            finalcalc = 'SSelected {}. SNR: {}, Exptime: {}. CCD selected: {}, ccdbins: {}, ccddark {}'.format(choice,snr,exptime,choiceccd,ccdbin,ccddark)
             
           
        #BOkeh plot past example
@@ -72,6 +85,8 @@ def calc():
                 form=form,
                 snrtimeform=snrtimeform,
                 finalcalc = finalcalc,
+                ccdform1 = ccdform1,
+                ccdform2 = ccdform2,
                 result=result)
     else:
         result = None 
@@ -80,6 +95,8 @@ def calc():
                 title='O',
                 form=form,
                 snrtimeform=snrtimeform,
+                ccdform1 = ccdform1,
+                ccdform2 = ccdform2,
                 result=result)
 
     return encode_utf8(html)

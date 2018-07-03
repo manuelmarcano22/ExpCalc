@@ -55,6 +55,73 @@
     </tr>
   {% endfor %}
 </table>
+
+
+  <h4>CCD Properties</h4>
+  <div>
+    <div>
+
+      <input type="radio" name="choice-ccd" id="choice-calc-ccd-one" value='ccd1' required>
+      <label for="choice-calc-ccd-one"> CCD Número Uno    </label>
+    
+      <div class="reveal-if-active">
+
+<table class="table">
+
+	{% for field in ccdform1 if field.widget.input_type != 'hidden' %}
+	   <tr>
+    <td>{{ field.name }}</td><td>{{ field(size=12,class_="require-if-active",pair="#choice-calc-ccd-one") }}</td>
+    <td>{{ field.label }}</td>
+
+
+    {% if field.errors %}
+      <td><ul class=errors>
+      {% for error in field.errors %}
+        <li><font color="red">{{ error }}</font></li>
+      {% endfor %}</ul></td>
+    {% endif %}
+    </tr>
+  {% endfor %}
+</table>
+
+      </div>
+    </div>
+    
+    <div>
+      <input type="radio" name="choice-ccd" id="choice-calc-ccd-two", value='ccd2'>
+      <label for="choice-calc-ccd-two">CCD Número dos</label>
+    
+      <div class="reveal-if-active">
+
+	      <table class="table">
+
+	{% for field in ccdform2 if field.widget.input_type != 'hidden' %}
+	   <tr>
+    <td>{{ field.name }}</td><td>{{ field(size=12,class_="require-if-active",pair="#choice-calc-ccd-two") }}</td>
+    <td>{{ field.label }}</td>
+
+
+    {% if field.errors %}
+      <td><ul class=errors>
+      {% for error in field.errors %}
+        <li><font color="red">{{ error }}</font></li>
+      {% endfor %}</ul></td>
+    {% endif %}
+    </tr>
+  {% endfor %}
+</table>
+
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
 <p><input class='btn btn-warning ' type=submit value=Compute></form></p>
 
 
