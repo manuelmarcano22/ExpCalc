@@ -16,7 +16,7 @@
 }
 input[type="radio"]:checked ~ .reveal-if-active, input[type="checkbox"]:checked ~ .reveal-if-active {
   opacity: 1;
-  max-height: 100px;
+  max-height: 10000px;
   padding: 10px 20px;
   -webkit-transform: scale(1);
           transform: scale(1);
