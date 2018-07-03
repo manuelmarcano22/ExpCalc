@@ -15,7 +15,7 @@
     <div>
 
       <input type="radio" name="choice-calc" id="choice-calc-snr" value='snr' required>
-      <label for="choice-calc-snr">Calculate the SNR</label>
+      <label for="choice-calc-snr">Calculate the Exposure Time</label>
     
       <div class="reveal-if-active">
 	      {{snrtimeform.snr.label}}
@@ -26,7 +26,7 @@
     
     <div>
       <input type="radio" name="choice-calc" id="choice-calc-exptime", value='time'>
-      <label for="choice-calc-exptime">Calculate ExpTime</label>
+      <label for="choice-calc-exptime">Calculate SNR</label>
     
       <div class="reveal-if-active">
 	      <!--<label for="which-cat">Why? Cats are weird. Respond.</label>-->
@@ -37,7 +37,7 @@
     </div>
   </div>
   
-
+<!--
 <table class="table">
 
 	{% for field in form if field.widget.input_type != 'hidden' %}
@@ -54,7 +54,7 @@
     {% endif %}
     </tr>
   {% endfor %}
-</table>
+</table>-->
 
 
   <h4>CCD Properties</h4>
@@ -119,11 +119,7 @@
 
 
 
-
-
-
 <p><input class='btn btn-warning ' type=submit value=Compute></form></p>
-
 
 	{% if result != None %}
 
