@@ -25,14 +25,23 @@ class SNRtimeForm(FlaskForm):
 
 
 class CCDForm1(FlaskForm):
-    dark1 = FloatField('Dark Current UNO', default=6.0, description = "Dark" ,validators=[InputRequired()])
-    bin1 = FloatField('Bin UNO',  description = "Bin", default=10)
+    zeropoint1 = FloatField('Zeropoint', default=1521 , description="Count Rate standard (e-/sec", validators=[InputRequired()])
+    magnitude1 = FloatField('Magnitude', default = 26, description='magnitude target', validators=[InputRequired()])
+    pixscale1 = FloatField('Scale', default = 0.218, description='Pixel Scale in arcsec/pix', validators=[InputRequired()])
+    skyb1 = FloatField('Sky Brightness', default = 21.9, description='Sky Brightness (mag/arcsec^2)', validators=[InputRequired()])
+    radius1 = FloatField('Radius', default = 1, description='Photometric Aperture Radius (arcsec)', validators=[InputRequired()])
+    readnoise1 = FloatField('RN', default = 8, description='Readnoise in e-', validators=[InputRequired()])
+    gain1 = FloatField('Gain', default = 1, description='Gain in e-', validators=[InputRequired()])
+    dark1 = FloatField('Dark Current', default=1.0, description = "Dark Current in e-" ,validators=[InputRequired()])
+
 
 class CCDForm2(FlaskForm):
-    dark2 = FloatField('Dark Current Dos', default=12.0, description = "Dark" ,validators=[InputRequired()])
-    bin2 = FloatField('Bin Dos',  description = "Bin", default=20)
-
-
-
-
+    zeropoint2 = FloatField('Zeropoint', default=1521 , description="Count Rate standard (e-/sec", validators=[InputRequired()])
+    magnitude2 = FloatField('Magnitude', default = 26, description='magnitude target', validators=[InputRequired()])
+    pixscale2 = FloatField('Scale', default = 0.218, description='Pixel Scale in arcsec/pix', validators=[InputRequired()])
+    skyb2 = FloatField('Sky Brightness', default = 21.9, description='Sky Brightness (mag/arcsec^2)', validators=[InputRequired()])
+    radius2 = FloatField('Radius', default = 1, description='Photometric Aperture Radius (arcsec)', validators=[InputRequired()])
+    readnoise2 = FloatField('RN', default = 8, description='Readnoise in e-', validators=[InputRequired()])
+    gain2 = FloatField('Gain', default = 1, description='Gain in e-', validators=[InputRequired()])
+    dark2 = FloatField('Dark Current', default=1.0, description = "Dark Current in e-" ,validators=[InputRequired()])
 

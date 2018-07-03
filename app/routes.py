@@ -1,7 +1,7 @@
 from flask import render_template,  flash, redirect, url_for, request
 from app import app
 from app.forms import LoginForm, InputForm, SNRtimeForm, CCDForm1, CCDForm2
-from app.compute import compute, bplot, computeexptime
+from app.compute import compute, bplot, computeexptime, snrarray,calctime,calcsnr
 #Bokeh
 from bokeh.util.string import encode_utf8
 import glob
@@ -49,29 +49,47 @@ def calc():
         choiceccd = request.form['choice-ccd']
 
         if choiceccd == 'ccd1':
-            ccdbin = ccdform1.bin1.data
-            ccddark = ccdform1.dark1.data
+            zeropoint = ccdform1.zeropoint1.data
+            magnitude = ccdform1.magnitude1.data
+            pixelscale = ccdform1.pixscale1.data
+            skybrightness = ccdform1.skyb1.data
+            radiusaperture = ccdform1.radius1.data
+            readnoise = ccdform1.readnoise1.data
+            gain = ccdform1.gain1.data
+            darkcurrent = ccdform1.dark1.data
 
         elif choiceccd == 'ccd2':
-            ccdbin = ccdform2.bin2.data
-            ccddark = ccdform2.dark2.data
+            zeropoint = ccdform2.zeropoint2.data
+            magnitude = ccdform2.magnitude2.data
+            pixelscale = ccdform2.pixscale2.data
+            skybrightness = ccdform2.skyb2.data
+            radiusaperture = ccdform2.radius2.data
+            readnoise = ccdform2.readnoise2.data
+            gain = ccdform2.gain2.data
+            darkcurrent = ccdform2.dark2.data
 
 
         if choice == 'snr':
             snr = snrtimeform.snr.data
-            exptime = snrtimeform.exptime.data
-            exptime = computeexptime(snr)
-            finalcalc = 'Selected {}. SNR: {}, Exptime: {}. CCD selected: {}, ccdbins: {}, ccddark {}'.format(choice,snr,exptime,choiceccd,ccdbin,ccddark)
+            exptime = calctime(zeropoint, magnitude, pixelscale, 
+                    skybrightness, radiusaperture, snr , readnoise, gain,darkcurrent)
+            #exptime = snrtimeform.exptime.data
+            #exptime = computeexptime(snr)
+            finalcalc = 'Selected {}. SNR: {}, Exptime: {}. CCD selected: {}, ccdbins: {}, ccddark {}'.format(choice,snr,exptime,choiceccd,gain,darkcurrent)
             
         elif choice == 'time':
-            snr = snrtimeform.snr.data
             exptime = snrtimeform.exptime.data
-            exptime = computeexptime(snr)
-            finalcalc = 'SSelected {}. SNR: {}, Exptime: {}. CCD selected: {}, ccdbins: {}, ccddark {}'.format(choice,snr,exptime,choiceccd,ccdbin,ccddark)
+            snr = calcsnr(zeropoint, magnitude, pixelscale, skybrightness, 
+                            radiusaperture, exptime, readnoise, gain,darkcurrent)
+            #snr = snrtimeform.snr.data
+            finalcalc = 'SSelected {}. SNR: {}, Exptime: {}. CCD selected: {}, ccdbins: {}, ccddark {}'.format(choice,snr,exptime,choiceccd,gain,darkcurrent)
             
           
        #BOkeh plot past example
         t,u = compute(form.A.data, form.b.data,form.w.data, form.T.data)
+        t,u = snrarray(zeropoint, magnitude, pixelscale, skybrightness, 
+                radiusaperture, readnoise, gain,darkcurrent)
+
         #If wanted to plot
         script, div, js, css = bplot(t,u)
         
