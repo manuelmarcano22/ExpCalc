@@ -16,9 +16,9 @@
 	<link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
 
         {% if title %}
-        <title>{{ title }} - microblog</title>
+        <title>{{ title }} - Exposure Time Calculator</title>
         {% else %}
-        <title>microblog</title>
+        <title>Exposure Time Calculator</title>
         {% endif %}
 	
 	{% if js_resources %}
@@ -44,6 +44,7 @@
     <ul class="nav navbar-nav">
               <li class="active"><a href="{{ url_for('index') }}">Home</a></li>
 	      <li><a href="{{ url_for('calc') }}">Calculator</a></li>
+	      <li><a href="{{ url_for('calc2') }}">Calculator CCD</a></li>
     </ul>
   </div>
 </nav>
