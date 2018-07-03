@@ -70,7 +70,7 @@
 
 	{% for field in ccdform1 if field.widget.input_type != 'hidden' %}
 	   <tr>
-    <td>{{ field.name }}</td><td>{{ field(size=12,class_="require-if-active",pair="#choice-calc-ccd-one") }}</td>
+    <td>{{ field.description }}</td><td>{{ field(size=12,class_="require-if-active",pair="#choice-calc-ccd-one") }}</td>
     <td>{{ field.label }}</td>
 
 
@@ -97,7 +97,7 @@
 
 	{% for field in ccdform2 if field.widget.input_type != 'hidden' %}
 	   <tr>
-    <td>{{ field.name }}</td><td>{{ field(size=12,class_="require-if-active",pair="#choice-calc-ccd-two") }}</td>
+    <td>{{ field.description }}</td><td>{{ field(size=12,class_="require-if-active",pair="#choice-calc-ccd-two") }}</td>
     <td>{{ field.label }}</td>
 
 
