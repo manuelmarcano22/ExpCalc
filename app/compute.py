@@ -1,16 +1,11 @@
-import math
 import numpy as np
+#Sympy to solve the CCD equation to solve for t
 from sympy import Eq, solve, Symbol
 #Bokeh
 from bokeh.resources import CDN, INLINE
 from bokeh.plotting import figure
 from bokeh.embed import autoload_static, components
 from bokeh.models import  ColumnDataSource
-
-def sin(x):
-    return math.sin(x)
-
-
 
 
 def flux(zeropoint, magnitude):
@@ -21,18 +16,19 @@ def flux(zeropoint, magnitude):
     return f
 
 def fluxsky(zeropoint, pixelscale, skybrightness):
-    """Return the sky background in electrons/sec/pix. I needs the skybrightness in mag/arcsec^2, the pixelscale of the CCD in arcsec/pixel and the zeropoint (filter) to calculate the flux."""
+    """Return the sky background in electrons/sec/pix. It needs the sky brightness in mag/arcsec^2, the pixel scale of the CCD in arcsec/pixel and the zeropoint (filter) to calculate the flux."""
     magnitudepixel = skybrightness - 2.5*np.log10(pixelscale**2)
     fsky = flux(zeropoint,magnitudepixel)
     return fsky
 
 
 def npixel(pixelscale, radiusaperture):
-    """Return the number of pixel given the pixel scale in arcsec/pixel and photometric radius of aperture given in arcseconds. """
+    """Return the number of pixel given the pixel scale in arcsec/pixel and photometric radius of aperture given in arcseconds."""
     npixel = (np.pi * radiusaperture**2)/(pixelscale**2)
     return npixel
 
 def skynoise(zeropoint, radiusaperture,pixelscale,skybrightness,time):
+    """Return the sky noise. The product of number of pixel, integration time, and sky brightness."""
     n = npixel(pixelscale, radiusaperture)
     fsky = fluxsky(zeropoint, pixelscale, skybrightness)
     skyn = fsky * time * n
@@ -42,7 +38,9 @@ def skynoise(zeropoint, radiusaperture,pixelscale,skybrightness,time):
 
 def calcsnr(zeropoint, magnitude, pixelscale, skybrightness, 
         radiusaperture, time, readnoise, gain,darkcurrent):
-    """Given the exposure time calculate the SNR. 
+    """Given the exposure time calculate the SNR. Needs the zeropoint (e-/sec), magnitude,
+    pixel scale (arsec/pixel), sky brightness (mag/arcsec^2), radius aperture (arcsec),
+    time in seconds, readnoise (e-/pix), Gain (e-/adu), darkcurrent (e-/pix/sec).
     Given this in that unit and that in that unit
     """
     n = npixel(pixelscale, radiusaperture)
@@ -53,22 +51,8 @@ def calcsnr(zeropoint, magnitude, pixelscale, skybrightness,
     snr = signal/ (signal + rn + dn)**(1/2.)
     return snr
 
-
-def exposuret(zeropoint, magnitude, pixelscale, skybrightness, 
-                radiusaperture, snr, readnoise, gain,darkcurrent):
-    """Calculate the exposure time needed given the SNR. """
-    n = npixel(pixelscale, radiusaperture)
-    fsky = fluxsky(zeropoint, pixelscale, skybrightness)
-    f = flux(zeropoint, magnitude)
-    p1 = (f+(darkcurrent+fsky)*n)*snr**2  
-    p2 = f**2*(gain**2*n+4*readnoise**2)*snr**2
-    p3 = (f+(darkcurrent+fsky)*n)**2 * snr**4
-
-    t = (p1 +  np.sqrt(p2 + p3) )/(2*f**2)
-
-    return t
-
 def calctime(zeropoint, magnitude, pixelscale, skybrightness, radiusaperture, snr , readnoise, gain,darkcurrent):
+    """Calculate the exposure time needed given the SNR. It uses sympy to find the solution of the function calcsnr() defined above. There are probable better ways ..."""
     tt = Symbol('t')
     n = npixel(pixelscale, radiusaperture)
     signal = flux(zeropoint, magnitude) * tt
@@ -82,37 +66,24 @@ def calctime(zeropoint, magnitude, pixelscale, skybrightness, radiusaperture, sn
 
 
 def snrarray(zeropoint, magnitude, pixelscale, skybrightness, radiusaperture,readnoise, gain,darkcurrent):
-    tarray = np.arange(0,1000)
+    """Creates an array of time and calculates the SNR. Use this to create a plot SNR vs exposure time"""
+    upperlimit = 200
+    tarray = np.arange(0,upperlimit)
     sarray = [ calcsnr(zeropoint, magnitude, pixelscale, skybrightness, radiusaperture, i, readnoise, gain,darkcurrent) for i in tarray ]
     return tarray,sarray
 
-#a,b = snrarray(zeropoint, magnitude, pixelscale, skybrightness, radiusaperture, readnoise, gain,darkcurrent)
-
-
-def damped_vibrations(t, A, b, w):
-    return A*np.exp(-b*t)*np.cos(w*t)
-
-def compute(A, b, w, T, resolution=500):
-    """Return t,u of plot of the damped_vibration function."""
-    t = np.linspace(0, T, resolution+1)
-    u = damped_vibrations(t, A, b, w)
-    return t,u
-
-def computeexptime(snr):
-    """Return Exposure time given the noisees and snr desired."""
-    exptime = snr*2.0
-    return exptime
-
 
 def bplot(x,y):
-    """Descript Function"""
+    """From a 2D array it returns the Bokeh <script> that contains the data for your plot, together with an accompanying <div> tag that the plot view is loaded into. These tags can be used in HTML documents"""
 
     #Define data
     x = np.array(x)
     y = np.array(y)
     source = ColumnDataSource(data=dict(x=x,y=y))
-    plot = figure(sizing_mode='scale_width',plot_width=100, plot_height=50)
-    plot.line('x','y',source=source)
+    plot = figure(sizing_mode='scale_width',plot_width=1000, plot_height=500, title="SNR vs Integration Time",toolbar_location="above")
+    plot.xaxis.axis_label = 'Time (s)'
+    plot.yaxis.axis_label = 'SNR'
+    plot.line('x','y',source=source, line_width=2.)
     #JS
     js_resources = INLINE.render_js()
     css_resources = INLINE.render_css()

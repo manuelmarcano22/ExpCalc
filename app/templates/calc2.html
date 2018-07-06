@@ -10,7 +10,7 @@
 	        {{ form.hidden_tag() }}
 
 
-  <h4>Which do you like more?</h4>
+  <h4>Results</h4>
   <div>
     <div>
 
@@ -20,7 +20,6 @@
       <div class="reveal-if-active">
 	      {{snrtimeform.snr.label}}
 	{{ snrtimeform.snr(class_="require-if-active",pair="#choice-calc-snr") }}
-	<!-- <input type="text" id="which-dog" name="which-dog" class="require-if-active" data-require-pair="#choice-animals-dogs">-->
       </div>
     </div>
     
@@ -29,10 +28,8 @@
       <label for="choice-calc-exptime">Calculate SNR</label>
     
       <div class="reveal-if-active">
-	      <!--<label for="which-cat">Why? Cats are weird. Respond.</label>-->
 	{{snrtimeform.exptime.label}}
 	{{ snrtimeform.exptime(class_="require-if-active",pair="#choice-calc-exptime") }}
-	<!--<input type="text" id="which-cat" name="which-cat" class="require-if-active" data-require-pair="#choice-animals-cats">-->
       </div>
     </div>
   </div>
@@ -60,7 +57,7 @@
 
 
 
-<p><input class='btn btn-warning ' type=submit value=Compute></form></p>
+<p style='font-size:10px;'><input class='btn btn-warning ' type=submit value=Compute></form></p>
 
 
 	{% if result != None %}
