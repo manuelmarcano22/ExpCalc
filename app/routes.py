@@ -142,7 +142,6 @@ def calc():
             
           
        #BOkeh plot past example
-        t,u = compute(form.A.data, form.b.data,form.w.data, form.T.data)
         t,u = snrarray(zeropoint, magnitude, pixelscale, skybrightness, 
                 radiusaperture, readnoise, gain,darkcurrent)
 

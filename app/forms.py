@@ -27,12 +27,12 @@ class SNRtimeForm(FlaskForm):
 class CCDForm1(FlaskForm):
     zeropoint1 = FloatField('Zeropoint', default=1521 , description="Count Rate Standard (e-/sec)", validators=[InputRequired()])
     magnitude1 = FloatField('Magnitude', default = 26, description='Target Magnitude', validators=[InputRequired()])
-    pixscale1 = FloatField('Scale', default = 0.218, description='Pixel Scale in arcsec/pix', validators=[InputRequired()])
+    pixscale1 = FloatField('Scale', default = 0.218, description='Pixel Scale (arcsec/pix)', validators=[InputRequired()])
     skyb1 = FloatField('Sky Brightness', default = 21.9, description='Sky Brightness (mag/arcsec^2)', validators=[InputRequired()])
     radius1 = FloatField('Radius', default = 1, description='Photometric Aperture Radius (arcsec)', validators=[InputRequired()])
-    readnoise1 = FloatField('RN', default = 8, description='Readnoise in e-', validators=[InputRequired()])
-    gain1 = FloatField('Inverse-Gain', default = 1, description='Gain in e-/ADU', validators=[InputRequired()])
-    dark1 = FloatField('Dark Current', default=1.0, description = "Dark Current in e-/pixel/sec" ,validators=[InputRequired()])
+    readnoise1 = FloatField('RN', default = 8, description='Readnoise (e-)', validators=[InputRequired()])
+    gain1 = FloatField('Inverse-Gain', default = 1, description='Gain (e-/ADU)', validators=[InputRequired()])
+    dark1 = FloatField('Dark Current', default=1.0, description = "Dark Current (e-/pixel/sec)" ,validators=[InputRequired()])
 
 
 class CCDForm2(FlaskForm):
