@@ -73,17 +73,19 @@ def calc2():
                 snrtimeform=snrtimeform,
                 finalcalc = finalcalc,
                 ccdform1 = ccdform1,
+                choice = choice,
                 result=result)
     else:
-        result = None 
+        result = None
+        choice = None
         html = render_template(
                 'calc2.html',
                 title='Exposure Time Calculator',
                 form=form,
                 snrtimeform=snrtimeform,
                 ccdform1 = ccdform1,
+                choice = choice,
                 result=result)
-
     return encode_utf8(html)
 
 

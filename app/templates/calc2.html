@@ -14,7 +14,16 @@
   <div>
     <div>
 
-      <input type="radio" name="choice-calc" id="choice-calc-snr" value='snr' required>
+
+ 	{% if choice == 'time' %}
+
+      <input type="radio" name="choice-calc" id="choice-calc-snr"   value='snr' required>
+
+       {% else %}
+      <input type="radio" name="choice-calc" id="choice-calc-snr" checked='checked' value='snr' required>
+
+	{% endif %}
+
       <label for="choice-calc-snr">Calculate the Exposure Time</label>
     
       <div class="reveal-if-active">
@@ -24,7 +33,19 @@
     </div>
     
     <div>
+
+ 	{% if choice == 'time' %}
+
+      <input type="radio" name="choice-calc" id="choice-calc-exptime", value='time', checked='checked'>
+
+       {% else %}
       <input type="radio" name="choice-calc" id="choice-calc-exptime", value='time'>
+
+	{% endif %}
+     <!-- have it default selected if time was selected -->
+
+
+
       <label for="choice-calc-exptime">Calculate SNR</label>
     
       <div class="reveal-if-active">
