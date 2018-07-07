@@ -25,7 +25,7 @@ def calc2():
 
     #snr = request.form['choice-calc']
     #So that grapg appears after submit
-    if ccdform1.validate_on_submit():
+    if ccdform1.validate_on_submit() and snrtimeform.validate():
         result = True
 
         #Do the calculation based on selection:

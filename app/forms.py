@@ -21,7 +21,7 @@ class InputForm(FlaskForm):
 
 class SNRtimeForm(FlaskForm):
     snr = FloatField('SNR', default=10.0, description = "SNR" ,validators=[InputRequired()])
-    exptime = FloatField('Exposure Time (s)',  description = "Exposure time (s)", default=60)
+    exptime = FloatField('Exposure Time (s)',  description = "Exposure time (s)", default=60, validators=[InputRequired()])
 
 
 class CCDForm1(FlaskForm):
