@@ -16,6 +16,7 @@ Run in port 5000
 
 To-Do:
  - [x] Implement SNR formula for CCD
+ - [ ] Do validation of SNR and Exposure time form and show errors
  - [ ] Need to get rid of unnecessary form in routes
  - [x] Finish index.html page. Changed for calculator
  - [ ] Create appropriate footer
