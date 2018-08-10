@@ -17,15 +17,16 @@ def flux(zeropoint, magnitude):
     f = zeropoint*10**(0.4*(normalizationmag-magnitude))
     return f
 
-def nonlinear(flux):
-    '''Retrun the point that it will become nonlinear'''
-    non=45000/flux
+def nonlinear(zeropoint, magnitude):
+    normalizationmag = 20.0
+    non = (zeropoint*10**(0.4*(normalizationmag-magnitude)))/45000
     return non
 
-def saturated(flux):
-    '''Retrun the point that it will become saturated'''
-    non=60000/flux
+def satlinear(zeropoint, magnitude):
+    normalizationmag = 20.0
+    sat = (zeropoint*10**(0.4*(normalizationmag-magnitude)))/60000
     return sat
+
 
 def fluxsky(zeropoint, pixelscale, skybrightness):
     """Return the sky background in electrons/sec/pix. It needs the sky brightness in mag/arcsec^2, the pixel scale of the CCD in arcsec/pixel and the zeropoint (filter) to calculate the flux."""
@@ -45,6 +46,7 @@ def skynoise(zeropoint, radiusaperture,pixelscale,skybrightness,time):
     fsky = fluxsky(zeropoint, pixelscale, skybrightness)
     skyn = fsky * time * n
     return skyn
+
 
 
 
@@ -89,7 +91,7 @@ def bplot(x,y):
     """From a 2D array it returns the Bokeh <script> that contains the data for your plot, together with an accompanying <div> tag that the plot view is loaded into. These tags can be used in HTML documents"""
 
     #Define data
-    Span(location=0, dimension='height', line_color='red', line_width=3)
+   
     x = np.array(x)
     y = np.array(y)
     source = ColumnDataSource(data=dict(x=x,y=y))
@@ -97,7 +99,11 @@ def bplot(x,y):
     plot.xaxis.axis_label = 'Time (s)'
     plot.yaxis.axis_label = 'SNR'
     plot.line('x','y',source=source, line_width=2.)
-   
+    Nonline = Span(location=0, dimension='height', line_color='orange', line_width=3)
+    plot.add_layout(Nonline)
+    Satline = Span(location=100, dimension='height', line_color='red', line_width=3)
+    plot.add_layout(Satline)
+    
     
     #JS
     js_resources = INLINE.render_js()
