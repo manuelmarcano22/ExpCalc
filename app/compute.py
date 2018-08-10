@@ -22,7 +22,7 @@ def nonlinear(zeropoint, magnitude):
     non = (zeropoint*10**(0.4*(normalizationmag-magnitude)))/45000
     return non
 
-def satlinear(zeropoint, magnitude):
+def saturated(zeropoint, magnitude):
     normalizationmag = 20.0
     sat = (zeropoint*10**(0.4*(normalizationmag-magnitude)))/60000
     return sat
@@ -99,10 +99,11 @@ def bplot(x,y):
     plot.xaxis.axis_label = 'Time (s)'
     plot.yaxis.axis_label = 'SNR'
     plot.line('x','y',source=source, line_width=2.)
-    Nonline = Span(location=0, dimension='height', line_color='orange', line_width=3)
+    Nonline = Span(location=75, dimension='height', line_color='orange', line_width=3)
     plot.add_layout(Nonline)
     Satline = Span(location=100, dimension='height', line_color='red', line_width=3)
     plot.add_layout(Satline)
+
     
     
     #JS
