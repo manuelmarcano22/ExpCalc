@@ -75,6 +75,9 @@ def calc2():
                 ccdform1 = ccdform1,
                 choice = choice,
                 result=result)
+        
+        # Vertical line
+        
     else:
         result = None
         choice = None

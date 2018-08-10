@@ -6,6 +6,8 @@ from bokeh.resources import CDN, INLINE
 from bokeh.plotting import figure
 from bokeh.embed import autoload_static, components
 from bokeh.models import  ColumnDataSource
+import bokeh.plotting as bk
+from bokeh.models import Span
 
 
 def flux(zeropoint, magnitude):
@@ -14,6 +16,16 @@ def flux(zeropoint, magnitude):
     normalizationmag = 20.0
     f = zeropoint*10**(0.4*(normalizationmag-magnitude))
     return f
+
+def nonlinear(flux):
+    '''Retrun the point that it will become nonlinear'''
+    non=45000/flux
+    return non
+
+def saturated(flux):
+    '''Retrun the point that it will become saturated'''
+    non=60000/flux
+    return sat
 
 def fluxsky(zeropoint, pixelscale, skybrightness):
     """Return the sky background in electrons/sec/pix. It needs the sky brightness in mag/arcsec^2, the pixel scale of the CCD in arcsec/pixel and the zeropoint (filter) to calculate the flux."""
@@ -77,6 +89,7 @@ def bplot(x,y):
     """From a 2D array it returns the Bokeh <script> that contains the data for your plot, together with an accompanying <div> tag that the plot view is loaded into. These tags can be used in HTML documents"""
 
     #Define data
+    Span(location=0, dimension='height', line_color='red', line_width=3)
     x = np.array(x)
     y = np.array(y)
     source = ColumnDataSource(data=dict(x=x,y=y))
@@ -84,6 +97,8 @@ def bplot(x,y):
     plot.xaxis.axis_label = 'Time (s)'
     plot.yaxis.axis_label = 'SNR'
     plot.line('x','y',source=source, line_width=2.)
+   
+    
     #JS
     js_resources = INLINE.render_js()
     css_resources = INLINE.render_css()
