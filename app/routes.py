@@ -1,7 +1,7 @@
 from flask import render_template,  flash, redirect, url_for, request
 from app import app
 from app.forms import LoginForm, InputForm, SNRtimeForm, CCDForm1, CCDForm2
-from app.compute import bplot, snrarray, calctime, calcsnr, nonlinear, satuarated
+from app.compute import bplot, snrarray, calctime, calcsnr, nonlinear, saturated
 #Bokeh
 from bokeh.util.string import encode_utf8
 import glob
@@ -57,10 +57,11 @@ def calc2():
           
        #BOkeh plot from snrarray
         t,u = snrarray(zeropoint, magnitude, pixelscale, skybrightness, 
-                radiusaperture, readnoise, gain,darkcurrent)
-
+                radiusaperture, readnoise, gain, darkcurrent)
+        non = nonlinear(zeropoint, magnitude)
+        sat = saturated(zeropoint, magnitude)
         #If wanted to plot
-        script, div, js, css = bplot(t,u)
+        script, div, js, css = bplot(t,u,non,sat)
         
         html = render_template(
                 'calc2.html',

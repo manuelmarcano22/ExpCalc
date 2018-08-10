@@ -19,12 +19,14 @@ def flux(zeropoint, magnitude):
 
 def nonlinear(zeropoint, magnitude):
     normalizationmag = 20.0
-    non = (zeropoint*10**(0.4*(normalizationmag-magnitude)))/45000
+    non = 45000.0/(zeropoint*10**(0.4*(normalizationmag-magnitude)))
+    print(non)
     return non
 
 def saturated(zeropoint, magnitude):
     normalizationmag = 20.0
-    sat = (zeropoint*10**(0.4*(normalizationmag-magnitude)))/60000
+    sat = 60000.0/(zeropoint*10**(0.4*(normalizationmag-magnitude)))
+    print(sat)
     return sat
 
 
@@ -87,7 +89,7 @@ def snrarray(zeropoint, magnitude, pixelscale, skybrightness, radiusaperture,rea
     return tarray,sarray
 
 
-def bplot(x,y):
+def bplot(x,y,non,sat):
     """From a 2D array it returns the Bokeh <script> that contains the data for your plot, together with an accompanying <div> tag that the plot view is loaded into. These tags can be used in HTML documents"""
 
     #Define data
@@ -99,9 +101,9 @@ def bplot(x,y):
     plot.xaxis.axis_label = 'Time (s)'
     plot.yaxis.axis_label = 'SNR'
     plot.line('x','y',source=source, line_width=2.)
-    Nonline = Span(location=75, dimension='height', line_color='orange', line_width=3)
+    Nonline = Span(location=non, dimension='height', line_color='orange', line_width=3)
     plot.add_layout(Nonline)
-    Satline = Span(location=100, dimension='height', line_color='red', line_width=3)
+    Satline = Span(location=sat, dimension='height', line_color='red', line_width=3)
     plot.add_layout(Satline)
 
     
