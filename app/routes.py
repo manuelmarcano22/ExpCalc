@@ -1,7 +1,7 @@
 from flask import render_template,  flash, redirect, url_for, request
 from app import app
 from app.forms import LoginForm, InputForm, SNRtimeForm, CCDForm1, CCDForm2
-from app.compute import bplot, snrarray, calctime, calcsnr
+from app.compute import bplot, snrarray, calctime, calcsnr, nonlinear, saturated
 #Bokeh
 from bokeh.util.string import encode_utf8
 import glob
@@ -57,10 +57,11 @@ def calc2():
           
        #BOkeh plot from snrarray
         t,u = snrarray(zeropoint, magnitude, pixelscale, skybrightness, 
-                radiusaperture, readnoise, gain,darkcurrent)
-
+                radiusaperture, readnoise, gain, darkcurrent)
+        non = nonlinear(zeropoint, magnitude)
+        sat = saturated(zeropoint, magnitude)
         #If wanted to plot
-        script, div, js, css = bplot(t,u)
+        script, div, js, css = bplot(t,u,non,sat)
         
         html = render_template(
                 'calc2.html',
@@ -75,6 +76,9 @@ def calc2():
                 ccdform1 = ccdform1,
                 choice = choice,
                 result=result)
+        
+        # Vertical line
+        
     else:
         result = None
         choice = None
@@ -130,7 +134,7 @@ def calc():
         if choice == 'snr':
             snr = snrtimeform.snr.data
             exptime = calctime(zeropoint, magnitude, pixelscale, 
-                    skybrightness, radiusaperture, snr , readnoise, gain,darkcurrent)
+                    skybrightness, radiusaperture, snr , readnoise, gain, darkcurrent)
             #exptime = snrtimeform.exptime.data
             #exptime = computeexptime(snr)
             finalcalc = 'Selected {}. SNR: {}, Exptime: {}. CCD selected: {}, ccdbins: {}, ccddark {}'.format(choice,snr,exptime,choiceccd,gain,darkcurrent)
@@ -138,14 +142,14 @@ def calc():
         elif choice == 'time':
             exptime = snrtimeform.exptime.data
             snr = calcsnr(zeropoint, magnitude, pixelscale, skybrightness, 
-                            radiusaperture, exptime, readnoise, gain,darkcurrent)
+                            radiusaperture, exptime, readnoise, gain, darkcurrent)
             #snr = snrtimeform.snr.data
             finalcalc = 'SSelected {}. SNR: {}, Exptime: {}. CCD selected: {}, ccdbins: {}, ccddark {}'.format(choice,snr,exptime,choiceccd,gain,darkcurrent)
             
           
        #BOkeh plot past example
         t,u = snrarray(zeropoint, magnitude, pixelscale, skybrightness, 
-                radiusaperture, readnoise, gain,darkcurrent)
+                radiusaperture, readnoise, gain, darkcurrent)
 
         #If wanted to plot
         script, div, js, css = bplot(t,u)
